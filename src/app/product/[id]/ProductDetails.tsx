@@ -1,12 +1,14 @@
 'use client'
 
+import Button from '@/components/Button'
+import ProductImage from '@/components/ProductImage'
 import SetColor from '@/components/SetColor'
 import SetQuantity from '@/components/SetQuantity'
-import Button from '@/components/Button'
+import { useCart } from '@/hooks/useCart'
 import { Rating } from '@mui/material'
-import Image from 'next/image'
-import { useCallback, useState } from 'react'
-import ProductImage from '@/components/ProductImage'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import { MdCheckCircle } from 'react-icons/md'
 
 interface ProductDetails {
   product: any
@@ -33,10 +35,11 @@ export type SelectedType = {
 }
 
 const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
-  const productRating =
-    product.reviews.reduce((acc: number, item: any) => acc + item.rating, 0) /
-      product.reviews.length || 0
+  // cart context
+  const { handleAddProductToCart, cartProducts } = useCart()
+  const router = useRouter()
 
+  const [isProductInCart, setIsProductInCart] = useState<boolean>(false)
   const [cartProduct, setCartProduct] = useState<CartProductType>({
     id: product.id,
     name: product.name,
@@ -47,10 +50,12 @@ const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
     selectedType: { ...product.images[0] },
   })
 
+  // handle color select
   const handleColorSelect = useCallback((value: SelectedType) => {
     setCartProduct(prev => ({ ...prev, selectedType: value }))
   }, [])
 
+  // handle quantity change
   const handleQuantityChange = useCallback(
     (value: number) => {
       const val =
@@ -64,7 +69,22 @@ const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
     [cartProduct.quantity]
   )
 
-  const handleClickAddToCartBtn = useCallback(() => {}, [])
+  useEffect(() => {
+    setIsProductInCart(false)
+
+    if (cartProducts) {
+      const existingIndex = cartProducts.findIndex(cartProduct => cartProduct.id === product.id)
+
+      if (existingIndex !== -1) {
+        setIsProductInCart(true)
+      }
+    }
+  }, [cartProducts, product.id])
+
+  // calculate product rating
+  const productRating =
+    product.reviews.reduce((acc: number, item: any) => acc + item.rating, 0) /
+      product.reviews.length || 0
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-12'>
@@ -100,21 +120,36 @@ const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
         </div>
 
         <Horizontal />
-        <SetColor
-          cartProduct={cartProduct}
-          images={product.images}
-          handleColorSelect={handleColorSelect}
-        />
 
-        <Horizontal />
+        {isProductInCart ? (
+          <>
+            <p className='flex items-center gap-1 text-slate-500 mb-2'>
+              <MdCheckCircle className='text-teal-400' size={20} />
+              <span>Product added to cart</span>
+            </p>
+            <div className='max-w-[300px]'>
+              <Button label='View Cart' handleClick={() => router.push('/cart')} />
+            </div>
+          </>
+        ) : (
+          <>
+            <SetColor
+              cartProduct={cartProduct}
+              images={product.images}
+              handleColorSelect={handleColorSelect}
+            />
 
-        <SetQuantity cartProduct={cartProduct} handleQuantityChange={handleQuantityChange} />
+            <Horizontal />
 
-        <Horizontal />
+            <SetQuantity cartProduct={cartProduct} handleQuantityChange={handleQuantityChange} />
 
-        <div className='max-w-[300px]'>
-          <Button label='Add To Cart' handleClick={handleClickAddToCartBtn} />
-        </div>
+            <Horizontal />
+
+            <div className='max-w-[300px]'>
+              <Button label='Add To Cart' handleClick={() => handleAddProductToCart(cartProduct)} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

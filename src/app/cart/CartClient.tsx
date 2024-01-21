@@ -29,7 +29,7 @@ function CartClient() {
 
       <div className='border-t-[1.5px] border-slate-200 py-4 flex justify-between gap-4'>
         <div className='w-[90px]'>
-          <Button label='Clear Cart' outline small handleClick={handleClearCart} />
+          <Button label='Clear Cart' outline small onClick={handleClearCart} />
         </div>
         <div className='text-sm flex flex-col gap-1 items-start'>
           <div className='flex justify-between w-full text-base font-semibold'>
@@ -38,7 +38,7 @@ function CartClient() {
           </div>
           <p className='text-slate-500'>Taxes & Shipping calculate at checkout</p>
 
-          <Button label='Checkout' handleClick={() => {}} />
+          <Button label='Checkout' onClick={() => {}} />
           <Link href='/' className='flex items-center gap-1 text-slate-500 mt-2'>
             <MdArrowBack />
             <span>Continue Shopping</span>

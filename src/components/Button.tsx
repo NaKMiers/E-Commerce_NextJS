@@ -8,7 +8,7 @@ interface ButtonProps {
   small?: boolean
   custom?: string
   icon?: IconType
-  handleClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,11 +18,11 @@ const Button: React.FC<ButtonProps> = ({
   small,
   custom,
   icon: Icon,
-  handleClick,
+  onClick,
 }) => {
   return (
     <button
-      onClick={handleClick}
+      onClick={onClick}
       className={`flex items-center justify-center ${
         outline ? 'bg-light border-sky-700 border-2' : 'bg-sky-700'
       } ${outline ? 'text-slate-700' : 'text-white'} ${small ? 'text-xs py-1 px-2' : 'py-3 px-4'} ${

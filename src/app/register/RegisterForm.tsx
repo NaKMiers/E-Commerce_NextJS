@@ -3,12 +3,25 @@
 import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Input from '@/components/Input'
+import { SafeUser } from '@/types'
+import axios from 'axios'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { FieldValues, useForm, SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { AiOutlineGoogle } from 'react-icons/ai'
 
-function RegisterForm() {
+interface ResgisterFromProps {
+  currentUser: SafeUser | null
+}
+
+function RegisterForm({ currentUser }: ResgisterFromProps) {
+  // Router
+  const router = useRouter()
+
+  // Form
   const {
     register,
     handleSubmit,
@@ -20,18 +33,62 @@ function RegisterForm() {
       password: '',
     },
   })
+
+  // Loading state
   const [isLoading, setIsLoading] = useState(false)
 
+  // redirect if user is logged in
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => {
+        router.push('/')
+      }, 1000)
+    }
+  }, [currentUser, router])
+
+  // Submit handler
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     setIsLoading(true)
-    console.log(data)
+
+    try {
+      const res = await axios.post('/api/auth/register', data)
+      console.log('res.data: ', res.data)
+
+      // notify user
+      toast.success('Account created')
+
+      // login user
+      const callback = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      })
+
+      if (callback?.ok) {
+        router.push('/')
+        toast.success('Logged in')
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error)
+      }
+    } catch (err: any) {
+      toast.error(err.response.data.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  return (
+  return !currentUser ? (
     <>
       <Heading title='Sign Up For ARC Shop' />
 
-      <Button label='Sign Up With Google' icon={AiOutlineGoogle} outline handleClick={() => {}} />
+      <Button
+        label='Continue With Google'
+        icon={AiOutlineGoogle}
+        outline
+        onClick={() => signIn('google')}
+      />
 
       <hr className='bg-slate-300 w-full h-px' />
 
@@ -63,7 +120,7 @@ function RegisterForm() {
         type='password'
       />
 
-      <Button label={isLoading ? 'Loading' : 'Sign Up'} handleClick={handleSubmit(onSubmit)} />
+      <Button label={isLoading ? 'Loading' : 'Sign Up'} onClick={handleSubmit(onSubmit)} />
 
       <p className='text-sm'>
         Already have an account?{' '}
@@ -72,6 +129,8 @@ function RegisterForm() {
         </Link>
       </p>
     </>
+  ) : (
+    <p>Logined in. Redirecting...</p>
   )
 }
 

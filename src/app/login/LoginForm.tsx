@@ -3,12 +3,24 @@
 import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Input from '@/components/Input'
+import { SafeUser } from '@/types'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { FieldValues, useForm, SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { AiOutlineGoogle } from 'react-icons/ai'
 
-function LoginForm() {
+interface LoginFormProps {
+  currentUser: SafeUser | null
+}
+
+function LoginForm({ currentUser }: LoginFormProps) {
+  // Router
+  const router = useRouter()
+
+  // Form
   const {
     register,
     handleSubmit,
@@ -19,18 +31,58 @@ function LoginForm() {
       password: '',
     },
   })
+
+  // Loading
   const [isLoading, setIsLoading] = useState(false)
 
+  // redirect if user is logged in
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => {
+        router.push('/')
+      }, 1000)
+    }
+  }, [currentUser, router])
+
+  // Submit
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     setIsLoading(true)
-    console.log(data)
+
+    try {
+      const callback = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      })
+
+      if (callback?.ok) {
+        router.push('/')
+        toast.success('Logged in')
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error)
+      }
+    } catch (err: any) {
+      toast.error(err.response.data.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  return (
+  return !currentUser ? (
     <>
       <Heading title='Sign In For ARC Shop' />
-      <Button label='Continue With Google' icon={AiOutlineGoogle} outline handleClick={() => {}} />
+
+      <Button
+        label='Continue With Google'
+        icon={AiOutlineGoogle}
+        outline
+        onClick={() => signIn('google')}
+      />
+
       <hr className='bg-slate-300 w-full h-px' />
+
       <Input
         id='email'
         label='Email'
@@ -49,15 +101,16 @@ function LoginForm() {
         required
         type='password'
       />
-      <Button label={isLoading ? 'Loading' : 'Login'} handleClick={handleSubmit(onSubmit)} />
+      <Button label={isLoading ? 'Loading' : 'Login'} onClick={handleSubmit(onSubmit)} />
       <p className='text-sm'>
         Do not have an account?{' '}
         <Link className='underline' href='/register'>
           Sign Up
         </Link>
       </p>
-      X
     </>
+  ) : (
+    <p>Logined in. Redirecting...</p>
   )
 }
 

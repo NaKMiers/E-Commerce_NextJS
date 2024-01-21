@@ -128,7 +128,7 @@ const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
               <span>Product added to cart</span>
             </p>
             <div className='max-w-[300px]'>
-              <Button label='View Cart' handleClick={() => router.push('/cart')} />
+              <Button label='View Cart' onClick={() => router.push('/cart')} />
             </div>
           </>
         ) : (
@@ -146,7 +146,7 @@ const ProductDetails: React.FC<ProductDetails> = ({ product }) => {
             <Horizontal />
 
             <div className='max-w-[300px]'>
-              <Button label='Add To Cart' handleClick={() => handleAddProductToCart(cartProduct)} />
+              <Button label='Add To Cart' onClick={() => handleAddProductToCart(cartProduct)} />
             </div>
           </>
         )}

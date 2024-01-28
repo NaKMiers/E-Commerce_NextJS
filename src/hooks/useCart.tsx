@@ -6,10 +6,12 @@ type CartContextType = {
   cartTotalQuantity: number
   cartTotal: number
   cartProducts: CartProductType[] | null
+  paymentIntent: string | null
   handleAddProductToCart: (product: CartProductType) => void
   handleRemoveProductFromCart: (item: CartProductType) => void
   handleCartQuantityChange: (item: CartProductType, value: number) => void
   handleClearCart: () => void
+  handleSetPaymentIntent: (intent: string | null) => void
 }
 
 export const CartContext = createContext<CartContextType | null>(null)
@@ -22,10 +24,11 @@ export const CartContextProvider = (props: Props) => {
   const [cartTotalQuantity, setCartTotalQuantity] = useState(0)
   const [cartTotal, setCartTotal] = useState(0)
   const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null)
+  const [paymentIntent, setPaymentIntent] = useState<string | null>(null)
 
   // add new cart item
   const handleAddProductToCart = useCallback((product: CartProductType) => {
-    setCartProducts(prev => {
+    setCartProducts((prev) => {
       const updatedCart = prev ? [...prev, product] : [product]
       localStorage.setItem('arcCart', JSON.stringify(updatedCart))
       toast.success('Product added to cart')
@@ -38,7 +41,7 @@ export const CartContextProvider = (props: Props) => {
   const handleRemoveProductFromCart = useCallback(
     (cartItem: CartProductType) => {
       if (cartProducts) {
-        const filteredProducts = cartProducts.filter(item => item.id !== cartItem.id)
+        const filteredProducts = cartProducts.filter((item) => item.id !== cartItem.id)
 
         setCartProducts(filteredProducts)
 
@@ -63,7 +66,7 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         updatedCart = [...cartProducts]
 
-        const existingIndex = cartProducts.findIndex(cartProduct => cartProduct.id === cartItem.id)
+        const existingIndex = cartProducts.findIndex((cartProduct) => cartProduct.id === cartItem.id)
 
         if (existingIndex != -1) {
           updatedCart[existingIndex].quantity += value
@@ -85,13 +88,21 @@ export const CartContextProvider = (props: Props) => {
     localStorage.setItem('arcCart', JSON.stringify([]))
   }, [])
 
+  const handleSetPaymentIntent = useCallback((intent: string | null) => {
+    setPaymentIntent(intent)
+    localStorage.setItem('arcShopPaymentIntent', JSON.stringify(intent))
+  }, [])
+
   // initialize cart from local storage
   useEffect(() => {
-    const cProducts: CartProductType[] | null = JSON.parse(
-      localStorage.getItem('arcCart') || 'null'
+    const cProducts: CartProductType[] | null = JSON.parse(localStorage.getItem('arcCart') || 'null')
+
+    const paymentIntent: string | null = JSON.parse(
+      localStorage.getItem('arcShopPaymentIntent') || 'null'
     )
 
     setCartProducts(cProducts)
+    setPaymentIntent(paymentIntent)
   }, [])
 
   useEffect(() => {
@@ -117,10 +128,12 @@ export const CartContextProvider = (props: Props) => {
     cartTotalQuantity,
     cartTotal,
     cartProducts,
+    paymentIntent,
     handleAddProductToCart,
     handleRemoveProductFromCart,
     handleCartQuantityChange,
     handleClearCart,
+    handleSetPaymentIntent,
   }
 
   return <CartContext.Provider value={value} {...props} />

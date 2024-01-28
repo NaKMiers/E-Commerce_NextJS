@@ -24,7 +24,7 @@ export type CartProductType = {
   price: number
   quantity: number
   brand: string
-  description: number
+  description: string
   selectedType: SelectedType
 }
 

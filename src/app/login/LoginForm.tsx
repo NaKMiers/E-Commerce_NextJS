@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues, useForm, SubmitHandler } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { AiOutlineGoogle } from 'react-icons/ai'
+import { AiFillFacebook, AiOutlineGoogle, AiFillGithub, AiFillApple } from 'react-icons/ai'
 
 interface LoginFormProps {
   currentUser: SafeUser | null
@@ -79,6 +79,24 @@ function LoginForm({ currentUser }: LoginFormProps) {
         icon={AiOutlineGoogle}
         outline
         onClick={() => signIn('google')}
+      />
+      {/* <Button
+        label='Continue With Facebook'
+        icon={AiFillFacebook}
+        outline
+        onClick={() => signIn('facebook')}
+      />
+      <Button
+        label='Continue With Apple'
+        icon={AiFillApple}
+        outline
+        onClick={() => signIn('apple')}
+      /> */}
+      <Button
+        label='Continue With Github'
+        icon={AiFillGithub}
+        outline
+        onClick={() => signIn('github')}
       />
 
       <hr className='bg-slate-300 w-full h-px' />

@@ -7,8 +7,15 @@ import Link from 'next/link'
 import { MdArrowBack } from 'react-icons/md'
 import CartItem from './CartItem'
 import { formatPrice } from '@/utils/formatPrice'
+import { useRouter } from 'next/navigation'
+import { SafeUser } from '@/types'
 
-function CartClient() {
+interface CartClientProps {
+  currentUser: SafeUser | null
+}
+
+function CartClient({ currentUser }: CartClientProps) {
+  const router = useRouter()
   const { cartProducts, cartTotal, handleClearCart } = useCart()
 
   return cartProducts && cartProducts.length ? (
@@ -22,7 +29,7 @@ function CartClient() {
       </div>
 
       <div>
-        {cartProducts?.map(item => (
+        {cartProducts?.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </div>
@@ -38,7 +45,11 @@ function CartClient() {
           </div>
           <p className='text-slate-500'>Taxes & Shipping calculate at checkout</p>
 
-          <Button label='Checkout' onClick={() => {}} />
+          <Button
+            label={currentUser ? 'Checkout' : 'Login To Checkout'}
+            onClick={() => (currentUser ? router.push('/checkout') : router.push('/login'))}
+          />
+
           <Link href='/' className='flex items-center gap-1 text-slate-500 mt-2'>
             <MdArrowBack />
             <span>Continue Shopping</span>

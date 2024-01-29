@@ -47,12 +47,11 @@ function RegisterForm({ currentUser }: ResgisterFromProps) {
   }, [currentUser, router])
 
   // Submit handler
-  const onSubmit: SubmitHandler<FieldValues> = async data => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true)
 
     try {
       const res = await axios.post('/api/auth/register', data)
-      console.log('res.data: ', res.data)
 
       // notify user
       toast.success('Account created')

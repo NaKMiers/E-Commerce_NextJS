@@ -1,3 +1,4 @@
+import AdminNav from '@/components/AdminNav'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className=''>
-      <div>Nav</div>
+      <AdminNav />
       <div>{children}</div>
     </div>
   )

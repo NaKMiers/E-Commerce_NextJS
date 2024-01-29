@@ -20,8 +20,6 @@ function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState('')
   const [paymentSuccess, setPaymentSuccess] = useState(false)
 
-  console.log('cartProducts', cartProducts)
-
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
@@ -64,8 +62,6 @@ function CheckoutClient() {
   const handleSetPaymentSuccess = useCallback((value: boolean) => {
     setPaymentSuccess(value)
   }, [])
-
-  console.log(options)
 
   return (
     <div className='w-full'>

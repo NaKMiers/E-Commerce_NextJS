@@ -1,5 +1,5 @@
 interface BackDropProps {
-  onClick: () => void
+  onClick(): void
 }
 
 function BackDrop({ onClick }: BackDropProps) {

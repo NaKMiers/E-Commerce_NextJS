@@ -5,7 +5,7 @@ import { CartProductType, SelectedType } from '@/app/product/[id]/ProductDetails
 interface SetColorProps {
   images: SelectedType[]
   cartProduct: CartProductType
-  handleColorSelect: (value: SelectedType) => void
+  handleColorSelect(value: SelectedType): void
 }
 
 const SetColor: React.FC<SetColorProps> = ({ images, cartProduct, handleColorSelect }) => {
@@ -20,8 +20,7 @@ const SetColor: React.FC<SetColorProps> = ({ images, cartProduct, handleColorSel
                 cartProduct.selectedType.color === image.color ? 'border-[1.5px]' : 'border-none'
               }`}
               onClick={() => handleColorSelect(image)}
-              key={image.color}
-            >
+              key={image.color}>
               <div
                 className='h-5 w-5 rounded-full border-[1.2px] border-slate-300'
                 style={{ background: image.colorCode }}

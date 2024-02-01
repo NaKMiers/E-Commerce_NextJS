@@ -7,11 +7,11 @@ type CartContextType = {
   cartTotal: number
   cartProducts: CartProductType[] | null
   paymentIntent: string | null
-  handleAddProductToCart: (product: CartProductType) => void
-  handleRemoveProductFromCart: (item: CartProductType) => void
-  handleCartQuantityChange: (item: CartProductType, value: number) => void
-  handleClearCart: () => void
-  handleSetPaymentIntent: (intent: string | null) => void
+  handleAddProductToCart(product: CartProductType): void
+  handleRemoveProductFromCart(item: CartProductType): void
+  handleCartQuantityChange(item: CartProductType, value: number): void
+  handleClearCart(): void
+  handleSetPaymentIntent(intent: string | null): void
 }
 
 export const CartContext = createContext<CartContextType | null>(null)
@@ -28,7 +28,7 @@ export const CartContextProvider = (props: Props) => {
 
   // add new cart item
   const handleAddProductToCart = useCallback((product: CartProductType) => {
-    setCartProducts((prev) => {
+    setCartProducts(prev => {
       const updatedCart = prev ? [...prev, product] : [product]
       localStorage.setItem('arcCart', JSON.stringify(updatedCart))
       toast.success('Product added to cart')
@@ -41,7 +41,7 @@ export const CartContextProvider = (props: Props) => {
   const handleRemoveProductFromCart = useCallback(
     (cartItem: CartProductType) => {
       if (cartProducts) {
-        const filteredProducts = cartProducts.filter((item) => item.id !== cartItem.id)
+        const filteredProducts = cartProducts.filter(item => item.id !== cartItem.id)
 
         setCartProducts(filteredProducts)
 
@@ -66,7 +66,7 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         updatedCart = [...cartProducts]
 
-        const existingIndex = cartProducts.findIndex((cartProduct) => cartProduct.id === cartItem.id)
+        const existingIndex = cartProducts.findIndex(cartProduct => cartProduct.id === cartItem.id)
 
         if (existingIndex != -1) {
           updatedCart[existingIndex].quantity += value

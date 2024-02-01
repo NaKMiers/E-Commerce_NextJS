@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone'
 
 interface SelectImageProps {
   item?: ImageType
-  handleFileChange: (value: File) => void
+  handleFileChange(value: File): void
 }
 
 function SelectImage({ item, handleFileChange }: SelectImageProps) {

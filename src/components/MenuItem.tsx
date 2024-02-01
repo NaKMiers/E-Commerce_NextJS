@@ -1,6 +1,6 @@
 interface MenuItemProps {
   children: React.ReactNode
-  onClick: () => void
+  onClick(): void
 }
 
 function MenuItem({ children, onClick }: MenuItemProps) {

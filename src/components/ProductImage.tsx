@@ -4,7 +4,7 @@ import Image from 'next/image'
 interface ProductImageProps {
   cartProduct: CartProductType
   product: any
-  handleColorSelect: (value: SelectedType) => void
+  handleColorSelect(value: SelectedType): void
 }
 
 const ProductImage: React.FC<ProductImageProps> = ({ cartProduct, product, handleColorSelect }) => {
@@ -15,8 +15,7 @@ const ProductImage: React.FC<ProductImageProps> = ({ cartProduct, product, handl
           <div
             className='relative w-[80%] aspect-square rounded border-teal-300'
             onClick={() => handleColorSelect(image)}
-            key={image.color}
-          >
+            key={image.color}>
             <Image src={image.image} alt={image.color} fill className='object-contain' />
           </div>
         ))}

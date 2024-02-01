@@ -8,7 +8,7 @@ interface CategoryInputProps {
   selected?: boolean
   label: string
   icon: IconType
-  onClick: (value: string) => void
+  onClick(value: string): void
 }
 
 function CategoryInput({ selected, label, icon: Icon, onClick }: CategoryInputProps) {

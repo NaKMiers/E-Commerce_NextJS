@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 
 interface CheckoutFormProps {
   clientSecret: string
-  handleSetPaymentSuccess: (paymentSuccess: boolean) => void
+  handleSetPaymentSuccess(paymentSuccess: boolean): void
 }
 
 function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: CheckoutFormProps) {
@@ -46,7 +46,7 @@ function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: CheckoutFormPro
         elements,
         redirect: 'if_required',
       })
-      .then((result) => {
+      .then(result => {
         if (!result.error) {
           toast.success('Payment successful!')
 

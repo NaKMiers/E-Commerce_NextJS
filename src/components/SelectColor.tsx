@@ -8,8 +8,8 @@ import Button from './Button'
 interface SelectColorProps {
   item: ImageType
   isProductCreated: boolean
-  addImageToState: (value: ImageType) => void
-  removeImageFromState: (value: ImageType) => void
+  addImageToState(value: ImageType): void
+  removeImageFromState(value: ImageType): void
 }
 
 function SelectColor({

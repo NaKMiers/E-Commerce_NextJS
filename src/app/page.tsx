@@ -1,5 +1,4 @@
-export const dynamic = 'dynamic force'
-// 'automatic' | 'dynamic force' | 'error' | 'static force'
+export const revalidate = 0
 
 import getProducts, { IProductParams } from '@/actions/getProducts'
 import Container from '@/components/Container'

@@ -1,5 +1,3 @@
-export const revalidate = 0
-
 import getProducts, { IProductParams } from '@/actions/getProducts'
 import Container from '@/components/Container'
 import HomeBanner from '@/components/HomeBanner'

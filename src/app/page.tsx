@@ -1,3 +1,6 @@
+export const dynamic = 'dynamic force'
+// 'automatic' | 'dynamic force' | 'error' | 'static force'
+
 import getProducts, { IProductParams } from '@/actions/getProducts'
 import Container from '@/components/Container'
 import HomeBanner from '@/components/HomeBanner'

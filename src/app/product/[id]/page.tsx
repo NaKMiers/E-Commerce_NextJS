@@ -2,15 +2,17 @@ import Container from '@/components/Container'
 import { products } from '@/utils/products'
 import ListRating from './ListRating'
 import ProductDetails from './ProductDetails'
+import getProductById from '@/actions/getProductById'
+import NullData from '@/components/NullData'
 
 interface Params {
   id?: string
 }
 
-const Product = ({ params }: { params: Params }) => {
-  const product = products.find(item => item.id === params.id)
+async function Product({ params }: { params: Params }) {
+  const product = await getProductById(params.id)
 
-  return (
+  return product ? (
     <div className='p-8'>
       <Container>
         <ProductDetails product={product} />
@@ -20,6 +22,8 @@ const Product = ({ params }: { params: Params }) => {
         </div>
       </Container>
     </div>
+  ) : (
+    <NullData title='Product does not exist.' />
   )
 }
 

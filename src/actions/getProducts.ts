@@ -17,7 +17,7 @@ export default async function getProducts(params: IProductParams) {
     let query: any = {}
 
     if (category) {
-      query.categoy = category
+      query.category = category
     }
 
     const products = await prisma.product.findMany({

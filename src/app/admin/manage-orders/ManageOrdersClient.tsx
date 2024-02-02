@@ -79,7 +79,7 @@ function ManageOrdersClient({ orders }: ManageOrdersClientProps) {
               color='text-purple-700'
             />
           ) : (
-            <Status text='Delivery' icon={MdDone} background='bg-green-200' color='text-green-700' />
+            <Status text='Delivered' icon={MdDone} background='bg-green-200' color='text-green-700' />
           )}
         </div>
       ),

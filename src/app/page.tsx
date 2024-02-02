@@ -1,10 +1,20 @@
+import getProducts, { IProductParams } from '@/actions/getProducts'
 import Container from '@/components/Container'
 import HomeBanner from '@/components/HomeBanner'
+import NullData from '@/components/NullData'
 import ProductCard from '@/components/ProductCard'
-import { products } from '@/utils/products'
 
-export default function Home() {
-  return (
+interface HomeProps {
+  searchParams: IProductParams
+}
+
+async function Home({ searchParams }: HomeProps) {
+  const products = await getProducts(searchParams)
+
+  // shuffle products
+  products.sort(() => Math.random() - 0.5)
+
+  return products.length ? (
     <div className='p-8'>
       <Container>
         <div>
@@ -17,5 +27,9 @@ export default function Home() {
         </div>
       </Container>
     </div>
+  ) : (
+    <NullData title='No products found. Click "All" to cleaer filters' />
   )
 }
+
+export default Home

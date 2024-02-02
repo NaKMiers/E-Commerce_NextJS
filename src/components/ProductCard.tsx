@@ -18,9 +18,8 @@ const ProductCard: React.FC<ProductCard> = ({ data }: ProductCard) => {
 
   return (
     <div
-      className='col-span-1 cursor-pointer border-[1.2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition hover:scalte-105 text-center text-sm'
-      onClick={() => router.push(`/product/${data.id}`)}
-    >
+      className='col-span-1 cursor-pointer border-[1.2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition hover:scale-105 text-center text-sm'
+      onClick={() => router.push(`/product/${data.id}`)}>
       <div className='flex flex-col items-center w-full gap-1'>
         <div className='aspect-square overflow-hidden relative w-full'>
           <Image

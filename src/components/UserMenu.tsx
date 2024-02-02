@@ -25,8 +25,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
       <div className='relative z-30'>
         <div
           className='p-2 border-[1px] border-slate-400 flex items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-700'
-          onClick={toggleOpen}
-        >
+          onClick={toggleOpen}>
           <Avatar src={currentUser?.image} />
           {currentUser && <span className='mx-1'>{currentUser.name}</span>}
           <AiFillCaretDown />
@@ -36,7 +35,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
           <div className='absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden right-0 top-12 text-sm flex flex-col cursor-pointer'>
             {currentUser ? (
               <div>
-                <Link href='/order'>
+                <Link href='/orders'>
                   <MenuItem onClick={toggleOpen}>Your Orders</MenuItem>
                 </Link>
                 <Link href='/admin'>
@@ -47,8 +46,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
                   onClick={() => {
                     toggleOpen()
                     signOut()
-                  }}
-                >
+                  }}>
                   Logout
                 </MenuItem>
               </div>

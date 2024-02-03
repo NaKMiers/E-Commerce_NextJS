@@ -38,9 +38,11 @@ function UserMenu({ currentUser }: UserMenuProps) {
                 <Link href='/orders'>
                   <MenuItem onClick={toggleOpen}>Your Orders</MenuItem>
                 </Link>
-                <Link href='/admin'>
-                  <MenuItem onClick={toggleOpen}>Admin Dashboard</MenuItem>
-                </Link>
+                {currentUser.role === 'admin' && (
+                  <Link href='/admin'>
+                    <MenuItem onClick={toggleOpen}>Admin Dashboard</MenuItem>
+                  </Link>
+                )}
                 <hr />
                 <MenuItem
                   onClick={() => {

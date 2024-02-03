@@ -30,7 +30,7 @@ async function Home({ searchParams }: HomeProps) {
       </Container>
     </div>
   ) : (
-    <NullData title='No products found. Click "All" to cleaer filters' />
+    <NullData title='No products found. Click "All" to clear filters' />
   )
 }
 

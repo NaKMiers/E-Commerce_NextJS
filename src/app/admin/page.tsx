@@ -5,12 +5,19 @@ import { getUsers } from '@/actions/getUsers'
 import Container from '@/components/Container'
 import BarGraph from './BarGraph'
 import getGraphData from '@/actions/getGraphData'
+import { getCurrentUser } from '@/actions/getCurrentUser'
+import { redirect } from 'next/navigation'
 
 async function Admin() {
+  const currentUser = await getCurrentUser()
   const products = await getProducts({ category: null })
   const orders = await getOrders()
   const users = await getUsers()
   const graphData = await getGraphData()
+
+  if (currentUser?.role !== 'admin') {
+    redirect('/')
+  }
 
   return (
     <div className='pt-8'>

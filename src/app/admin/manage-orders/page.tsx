@@ -1,21 +1,23 @@
-import Container from '@/components/Container'
-import ManageOrdersClient from './ManageOrdersClient'
-import getOrders from '@/actions/getOrders'
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import NullData from '@/components/NullData'
+import getOrders from '@/actions/getOrders'
+import Container from '@/components/Container'
+import { redirect } from 'next/navigation'
+import ManageOrdersClient from './ManageOrdersClient'
 
 async function ManageOrders() {
   const orders = await getOrders()
   const currentUser = await getCurrentUser()
 
-  return currentUser && currentUser.role === 'admin' ? (
+  if (currentUser?.role !== 'admin') {
+    redirect('/')
+  }
+
+  return (
     <div className='p-8'>
       <Container>
         <ManageOrdersClient orders={orders} />
       </Container>
     </div>
-  ) : (
-    <NullData title='Access Denied!' />
   )
 }
 

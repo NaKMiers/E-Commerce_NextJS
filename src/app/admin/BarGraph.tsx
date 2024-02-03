@@ -13,13 +13,13 @@ import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend)
 
-type GraphData = {
+export type GraphData = {
   day: string
   date: string
   amount: number
 }
 
-interface BarGraphProps {
+export interface BarGraphProps {
   data: GraphData[]
 }
 

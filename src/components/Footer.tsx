@@ -7,7 +7,7 @@ import { AiFillTwitterCircle, AiFillInstagram, AiFillYoutube } from 'react-icons
 
 const Footer = () => {
   return (
-    <footer className='bg-slate-700 text-slate-200 text-sm mt-16'>
+    <footer className='bg-slate-700 px-3 text-center sm:text-left text-slate-200 text-sm mt-16'>
       <Container>
         <div className='flex flex-col md:flex-row justify-between pt-16 pb-8'>
           <FooterList>
@@ -30,15 +30,15 @@ const Footer = () => {
           <div className='w-full md:w-1/3 mb-6 md:mb-0'>
             <h3 className='text-base font-bold mb-2'>About Us</h3>
             <p className='mb-2'>
-              At our electronics store, we are dedicated to providing the latest and greatest
-              devives and accesssories to our customers. With a wide selection of phones, TVs,
-              laptops, watches, and accessories.
+              At our electronics store, we are dedicated to providing the latest and greatest devives and
+              accesssories to our customers. With a wide selection of phones, TVs, laptops, watches, and
+              accessories.
             </p>
             <p>&copy; {new Date().getFullYear()} ARC-Shop. All rights reserved.</p>
           </div>
           <FooterList>
             <h3 className='text-base from-bold mb-2'>Follow Us</h3>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 justify-center sm:justify-start'>
               <Link href='#'>
                 <MdFacebook size={24} />
               </Link>

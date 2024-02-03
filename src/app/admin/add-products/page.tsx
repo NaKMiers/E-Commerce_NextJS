@@ -3,11 +3,16 @@ import FormWrap from '@/components/FormWrap'
 import AddProductForm from './AddProductForm'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import NullData from '@/components/NullData'
+import { redirect } from 'next/navigation'
 
 async function AddProducts() {
   const currentUser = await getCurrentUser()
 
-  return currentUser && currentUser.role === 'admin' ? (
+  if (currentUser?.role !== 'admin') {
+    redirect('/')
+  }
+
+  return (
     <div className='p-8'>
       <Container>
         <FormWrap>
@@ -15,8 +20,6 @@ async function AddProducts() {
         </FormWrap>
       </Container>
     </div>
-  ) : (
-    <NullData title='Access Denied!' />
   )
 }
 
